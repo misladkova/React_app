@@ -20,6 +20,10 @@ const App = () => {
     if(all!==0) {
         average = (good - bad) / all
     }
+    let positive = 0
+    if(all!==0){
+        positive = (good/all)*100
+    }
 
     return(
         <div>
@@ -29,8 +33,7 @@ const App = () => {
             <Button handleClick={()=>setBad(bad+1)} text={'bad'}/>
             <h1>statistics</h1>
             <p>good {good}<br />neutral {neutral}<br />bad {bad}<br />all {all}<br />
-            average {average}<br />
-            positive {(good/all)*100}%</p>
+            average {average}<br />positive {positive}%</p>
         </div>
     )
 }
