@@ -14,47 +14,23 @@ const App = () => {
     const [good, setGood] = useState(0)
     const [neutral, setNeutral] = useState(0)
     const [bad, setBad] = useState(0)
-    const setToGood = (increment) =>{
-        console.log(increment)
-        setGood(increment)
-    }
-    const sumGood = ({good}) =>{
-        console.log(good)
-        return(
-            {good}
-        )
-    }
-    const setToNeutral = (increment) =>{
-        console.log(increment)
-        setNeutral(increment)
-    }
-    const sumNeutral = ({neutral}) =>{
-        console.log(neutral)
-        return(
-            {neutral}
-        )
-    }
-    const setToBad = (increment) =>{
-        console.log(increment)
-        setBad(increment)
-    }
-    const sumBad = ({bad}) =>{
-        console.log(bad)
-        return(
-            {bad}
-        )
-    }
+    const all = good+bad+neutral
 
+    let average = 0
+    if(all!==0) {
+        average = (good - bad) / all
+    }
 
     return(
         <div>
             <h1>give feedback</h1>
-            <Button handleClick={()=>setToGood(good+1)} text={'good'}/>
-            <Button handleClick={()=>setToNeutral(neutral+1)} text={'neutral'}/>
-            <Button handleClick={()=>setToBad(bad+1)} text={'bad'}/>
+            <Button handleClick={()=>setGood(good+1)} text={'good'}/>
+            <Button handleClick={()=>setNeutral(neutral+1)} text={'neutral'}/>
+            <Button handleClick={()=>setBad(bad+1)} text={'bad'}/>
             <h1>statistics</h1>
-            <p>good {good}<br />neutral {neutral}<br />bad {bad}<br />all {good+neutral+bad}<br />
-            average<br />positive</p>
+            <p>good {good}<br />neutral {neutral}<br />bad {bad}<br />all {all}<br />
+            average {average}<br />
+            positive {(good/all)*100}%</p>
         </div>
     )
 }
