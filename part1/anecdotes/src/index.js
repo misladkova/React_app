@@ -20,7 +20,7 @@ const App = () => {
     }
     const click = () =>{
         const copy = [...votes]
-        let index = copy.indexOf(selected)
+        copy[selected] +=1
     }
 
     return (
