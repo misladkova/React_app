@@ -22,9 +22,23 @@ const App = () =>{
     }, [])
     console.log('render', countries.length, 'countries')
 
+    const filteredCountries = () =>{
+        const filtered = countries.filter(country=>country.name.toLowerCase().includes(filter))
+            if(filtered.length>1 && filtered.length<=10) {
+                return <ul>{filtered.map(country => <li>{country.name}</li>)}</ul>
+            }
+            if(filtered.length>10) {
+                return 'Too many matches, specify another filter'
+            }else{
+                return filtered.map(country=><div><h2>{country.name}</h2> capital {country.capital}<br />
+                    population {country.population} <h3>languages</h3></div>)
+            }
+    }
+
     return(
         <div>
             find countries <input value={filter} onChange={handleChange}/>
+            {filteredCountries()}
         </div>
     )
 }
