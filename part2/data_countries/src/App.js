@@ -31,7 +31,8 @@ const App = () =>{
                 return 'Too many matches, specify another filter'
             }else{
                 return filtered.map(country=><div><h2>{country.name}</h2> capital {country.capital}<br />
-                    population {country.population} <h3>languages</h3></div>)
+                    population {country.population} <h3>languages</h3> <li>{country.languages.name}</li>
+                    <img src={country.flag} alt={'flag'} width={500} height={400}/></div>)
             }
     }
 
