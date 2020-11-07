@@ -2,18 +2,15 @@ import React, { useState, useEffect } from 'react'
 import Persons from "./components/Persons";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
-import axios from 'axios'
+import personsService from "./services/persons";
 
 const App = () => {
     const [ persons, setPersons ] = useState([])
-    //     { name: 'Arto Hellas', number: '032-9876544', id: 1}
-    // ])
     const [ newFilter, setNewFilter ] = useState('')
 
     useEffect(() => {
         console.log('effect')
-        axios
-            .get('http://localhost:3001/persons')
+        personsService.getPersonServer()
             .then(response=>{
                 console.log('promise fulfilled')
                 setPersons(response.data)
