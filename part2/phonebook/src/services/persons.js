@@ -9,9 +9,19 @@ const addPersonServer = (person) =>{
         .post('http://localhost:3001/persons', person)
 }
 
+const removePersonServer = (id) =>{
+    return axios.delete(`http://localhost:3001/persons/${id}`)
+}
+
+const changeNumberServer = () =>{
+    return axios.put()
+}
+
 export default {
     getPersonServer: getPersonServer,
-    addPersonServer: addPersonServer
+    addPersonServer: addPersonServer,
+    removePersonServer: removePersonServer,
+    changeNumberServer: changeNumberServer
 }
 
 
