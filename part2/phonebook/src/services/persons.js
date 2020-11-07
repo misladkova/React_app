@@ -13,8 +13,9 @@ const removePersonServer = (id) =>{
     return axios.delete(`http://localhost:3001/persons/${id}`)
 }
 
-const changeNumberServer = () =>{
-    return axios.put()
+const changeNumberServer = (url, changedPerson) =>{
+    console.log("aaaa", url, changedPerson)
+    return axios.put(url, changedPerson)
 }
 
 export default {
