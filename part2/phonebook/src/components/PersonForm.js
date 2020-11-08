@@ -24,7 +24,13 @@ const PersonForm = (props) => {
                         const newPersons = props.persons.map(person=> person.name !== newName ? person: response.data)
                         props.setPersons(newPersons)
                     })
-            }
+                    .catch(error=> {
+                        setNotification(`Information of ${newName} has already been removed from server`)
+                        setTimeout(() => {
+                            setNotification(null)
+                        }, 8000)
+                    })
+                    }
         }else {
             personService.addPersonServer(personObj)
                 .then(response=>{
