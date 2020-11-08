@@ -1,9 +1,11 @@
 import React, {useState} from 'react'
 import personService from '../services/persons'
+import Notification from "./Notification";
 
 const PersonForm = (props) => {
     const [ newName, setNewName ] = useState('')
     const [ newNumber, setNewNumber ] = useState('')
+    const [ notification, setNotification ] = useState(null)
 
     const addPerson = (event) =>{
         event.preventDefault()
@@ -29,9 +31,18 @@ const PersonForm = (props) => {
                     props.setPersons(props.persons.concat(response.data))
                 })
             props.setPersons(props.persons.concat(personObj))
+            notify()
             setNewName('')
             setNewNumber('')
         }
+    }
+
+    const notify = () =>{
+        setNotification(`Added ${newName}`)
+        console.log('n', notification)
+        setTimeout(() => {
+            setNotification(null)
+        }, 8000)
     }
 
     const handleNameChange = (event) =>{
@@ -46,6 +57,9 @@ const PersonForm = (props) => {
 
     return(
         <form onSubmit={addPerson}>
+            <div>
+            <Notification note={notification}/>
+            </div>
             <div>
                 name: <input value={newName} onChange={handleNameChange}/>
             </div>
