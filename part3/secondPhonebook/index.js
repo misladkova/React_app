@@ -69,6 +69,30 @@ app.delete('/api/persons/:id', (req, res)=>{
     res.status(204).end()
 })
 
+app.post('/api/persons', (req, res)=>{
+    const body = req.body
+    const id = Math.floor(Math.random() * Math.floor(10000))
+    console.log('b', body)
+    const newPerson = {
+        id: id,
+        name: body.name,
+        number: body.number
+    }
+    const x = persons.find(x=>x.name===body.name)
+    if(x!==undefined){
+        res.status(400).json({
+            error: 'name must be unique'
+        })
+    }else if(body.name==="" || body.number===""){
+        res.status(400).json({
+            error: 'both name and number are required'
+        })
+    }else {
+        persons = persons.concat(newPerson);
+        res.json(persons)
+    }
+})
+
 const PORT = 3001
 app.listen(PORT)
 console.log(`Server running on port ${PORT}`)
