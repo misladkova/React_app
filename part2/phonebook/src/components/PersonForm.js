@@ -15,11 +15,9 @@ const PersonForm = (props) => {
             if(result===true){
                 const x = props.persons.find(n=>n.name===newName)
                 console.log('x', x)
-                const url = `http://localhost:3001/persons/${x.id}`
-                console.log('u', url)
                 const changedPerson = { ...x, number: newNumber }
                 console.log('ch', changedPerson)
-                personService.changeNumberServer(url, changedPerson)
+                personService.changeNumberServer(x.id, changedPerson)
                     .then(response=>{
                         const newPersons = props.persons.map(person=> person.name !== newName ? person: response.data)
                         props.setPersons(newPersons)
