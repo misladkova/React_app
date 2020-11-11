@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const url = process.env.MONGODB_URI
 
-console.log('Connecting to ', url, '...')
+console.log('Connecting to', url)
 
 mongoose.connect(url, {
     useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false,
@@ -12,7 +12,7 @@ mongoose.connect(url, {
         console.log('Connected to MongoDB...')
     })
     .catch(error=>{
-        console.log('Error while connecting to MongoDB: ', error.message)
+        console.log('Error while connecting to MongoDB: ',error.message)
     })
 
 const personSchema = new mongoose.Schema({
