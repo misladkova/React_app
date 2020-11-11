@@ -39,17 +39,17 @@ let persons = [
 //     response.end(JSON.stringify(persons))
 // })
 
-app.get('/', (request, response)=>{
+app.get('/', (request, response) => {
     response.send('<h1>Hello world</h1>')
 })
 
-app.get('/api/persons', (request, response)=>{
-    Person.find({}).then(persons=>{
+app.get('/api/persons', (request, response) => {
+    Person.find({}).then(persons => {
         response.json(persons)
-        })
+    })
 })
 
-app.post('/info', (req, res)=>{
+app.post('/info', (req, res) => {
     const info = req.body
     console.log('i', info)
     res.send(info)
@@ -58,11 +58,11 @@ app.post('/info', (req, res)=>{
 app.get('/info', (req, res) => {
     const output = {}
     output.asdsa = `Phonebook has info for ${persons.length} people`,
-    output.asddddd = new Date(),
-    res.json(output)
+        output.asddddd = new Date(),
+        res.json(output)
 })
 
-app.get('/api/persons/:id', (req, res)=>{
+app.get('/api/persons/:id', (req, res) => {
     // const id = Number(req.params.id)
     // const x = persons.find(person=>person.id===id)
     // if(x){
@@ -70,18 +70,27 @@ app.get('/api/persons/:id', (req, res)=>{
     // }else {
     //     res.status(404).end()
     // }
-    Person.findById(req.params.id).then(person => {
-        res.json(person)
-    })
+    Person.findById(req.params.id)
+        .then(person => {
+            if (person) {
+                res.json(person)
+            } else {
+                res.status(404).end()
+            }
+        })
+        .catch(error => {
+            console.log(error)
+            res.status(400).send({error: 'malformatted id'})
+        })
 })
 
-app.delete('/api/persons/:id', (req, res)=>{
+app.delete('/api/persons/:id', (req, res) => {
     const id = Number(req.params.id)
-    persons = persons.filter(person=>person.id!==id)
+    persons = persons.filter(person => person.id !== id)
     res.status(204).end()
 })
 
-app.post('/api/persons', (req, res)=>{
+app.post('/api/persons', (req, res) => {
     const body = req.body
     const id = Math.floor(Math.random() * Math.floor(10000))
     // console.log('b', body)
