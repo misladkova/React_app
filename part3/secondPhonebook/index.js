@@ -11,29 +11,6 @@ app.use(express.static('build'))
 app.use(express.json())
 app.use(morgan('combined'))
 
-let persons = [
-    {
-        id: 1,
-        name: 'Arto Hellas',
-        number: '040-123456'
-    },
-    {
-        id: 2,
-        name: 'Ada Lovelace',
-        number: '39-44-5323523'
-    },
-    {
-        id: 3,
-        name: 'Dan Abramov',
-        number: '12-43-234345'
-    },
-    {
-        id: 4,
-        name: 'Mary Poppendick',
-        number: '39-23-6423122'
-    }
-]
-
 // const app = http.createServer((request, response) =>{
 //     response.writeHead(200, {'Content-Type': 'application/json'})
 //     response.end(JSON.stringify(persons))
@@ -56,10 +33,13 @@ app.post('/info', (req, res) => {
 })
 
 app.get('/info', (req, res) => {
-    const output = {}
-    output.asdsa = `Phonebook has info for ${persons.length} people`,
-        output.asddddd = new Date(),
+    Person.find({}).then(persons => {
+        console.log('rtvrtvgrtvrtv', persons)
+        const output = {}
+        output.text = `Phonebook has info for ${persons.length} people`
+        output.date = new Date()
         res.json(output)
+    })
 })
 
 app.get('/api/persons/:id', (req, res) => {
@@ -85,14 +65,21 @@ app.get('/api/persons/:id', (req, res) => {
 })
 
 app.delete('/api/persons/:id', (req, res) => {
-    const id = Number(req.params.id)
-    persons = persons.filter(person => person.id !== id)
-    res.status(204).end()
+    // const id = Number(req.params.id)
+    // persons = persons.filter(person => person.id !== id)
+    // res.status(204).end()
+    Person.findByIdAndRemove(req.params.id)
+        .then(person => {
+            Person.find({}).then(persons => {
+                res.json(persons)
+            })
+        })
+        .catch(error => console.log(error))
 })
 
 app.post('/api/persons', (req, res) => {
     const body = req.body
-    const id = Math.floor(Math.random() * Math.floor(10000))
+    // const id = Math.floor(Math.random() * Math.floor(10000))
     // console.log('b', body)
     // const newPerson = {
     //     id: id,
@@ -100,12 +87,13 @@ app.post('/api/persons', (req, res) => {
     //     number: body.number
     // }
     const person = new Person({
-        id: id,
         name: body.name,
         number: body.number
     })
     person.save().then(person => {
-        response.json(person)
+        Person.find({}).then(persons => {
+            res.json(persons)
+        })
     })
     // const x = persons.find(x=>x.name===body.name)
     // if(x!==undefined){
