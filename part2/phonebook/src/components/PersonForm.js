@@ -20,7 +20,7 @@ const PersonForm = (props) => {
                 personService.changeNumberServer(x.id, changedPerson)
                     .then(response=>{
                         console.log('trtr', response)
-                        const newPersons = props.persons.map(person=> person.name !== newName ? person: response.data.data)
+                        const newPersons = props.persons.map(person=> person.name !== newName ? person: response.data)
                         props.setPersons(newPersons)
                         setNewName("")
                         setNewNumber("")
@@ -36,9 +36,7 @@ const PersonForm = (props) => {
             personService.addPersonServer(personObj)
                 .then(response=>{
                     props.setPersons(response.data)
-                    // props.setPersons(props.persons.concat(response.data))
                 })
-            // props.setPersons(props.persons.concat(personObj))
             notify()
             setNewName('')
             setNewNumber('')
