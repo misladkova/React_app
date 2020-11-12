@@ -71,9 +71,11 @@ app.post('/api/persons', (req, res) => {
                 number: body.number
             })
             person.save().then(person => {
-                Person.find({}).then(persons => {
-                    res.json(persons)
-                })
+                Person.find({})
+                    .then(persons => {
+                        res.json(persons)
+                    })
+                    .catch(error => console.log('Person validation failed'))
             })
         } else {
             const clovek = aa[0]
@@ -90,7 +92,7 @@ app.post('/api/persons', (req, res) => {
 app.put('/api/persons/:id', (req, res) => {
     Person.find({name: req.body.name}).then(aa => {
         if(aa.length === 0){
-            return;
+            return
         }
         const clovek = aa[0]
         clovek.number = req.body.number
