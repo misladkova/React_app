@@ -19,8 +19,11 @@ const PersonForm = (props) => {
                 console.log('ch', changedPerson)
                 personService.changeNumberServer(x.id, changedPerson)
                     .then(response=>{
-                        const newPersons = props.persons.map(person=> person.name !== newName ? person: response.data)
+                        console.log('trtr', response)
+                        const newPersons = props.persons.map(person=> person.name !== newName ? person: response.data.data)
                         props.setPersons(newPersons)
+                        setNewName("")
+                        setNewNumber("")
                     })
                     .catch(error=> {
                         setNotification(`Information of ${newName} has already been removed from server`)
@@ -32,9 +35,10 @@ const PersonForm = (props) => {
         }else {
             personService.addPersonServer(personObj)
                 .then(response=>{
-                    props.setPersons(props.persons.concat(response.data))
+                    props.setPersons(response.data)
+                    // props.setPersons(props.persons.concat(response.data))
                 })
-            props.setPersons(props.persons.concat(personObj))
+            // props.setPersons(props.persons.concat(personObj))
             notify()
             setNewName('')
             setNewNumber('')

@@ -1,5 +1,6 @@
 import axios from "axios";
 const baseUrl = 'http://localhost:3001/api/persons'
+// const baseUrl = 'https://aqueous-forest-70534.herokuapp.com/api/persons'
 
 const getPersonServer = () =>{
     return axios.get(baseUrl)
@@ -22,10 +23,10 @@ const changeNumberServer = (id, changedPerson) =>{
 }
 
 export default {
-    getPersonServer: getPersonServer,
-    addPersonServer: addPersonServer,
-    removePersonServer: removePersonServer,
-    changeNumberServer: changeNumberServer
+    getPersonServer,
+    addPersonServer,
+    removePersonServer,
+    changeNumberServer
 }
 
 

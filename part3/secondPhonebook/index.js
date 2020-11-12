@@ -86,15 +86,31 @@ app.post('/api/persons', (req, res) => {
     //     name: body.name,
     //     number: body.number
     // }
-    const person = new Person({
-        name: body.name,
-        number: body.number
+    Person.find({name: req.body.name}).then(aa => {
+        if(aa.length === 0){
+            const person = new Person({
+                name: body.name,
+                number: body.number
+            })
+            person.save().then(person => {
+                Person.find({}).then(persons => {
+                    res.json(persons)
+                })
+            })
+        } else {
+            const clovek = aa[0]
+            clovek.number = req.body.number
+            clovek.save().then(aaa => {
+                Person.find({}).then(persons => {
+                    res.json(persons)
+                })
+            })
+        }
     })
-    person.save().then(person => {
-        Person.find({}).then(persons => {
-            res.json(persons)
-        })
-    })
+    // person.save().then(person => {
+    //     Person.find({}).then(persons => {
+    //         res.json(persons)
+    //     })
     // const x = persons.find(x=>x.name===body.name)
     // if(x!==undefined){
     //     res.status(400).json({
@@ -109,6 +125,24 @@ app.post('/api/persons', (req, res) => {
     //     res.json(persons)
     // }
 })
+
+app.put('/api/persons/:id', (req, res) => {
+    Person.find({name: req.body.name}).then(aa => {
+        console.log("niecp", aa)
+        if(aa.length === 0){
+            return;
+        }
+        const clovek = aa[0]
+        clovek.number = req.body.number
+        clovek.save().then(aaa => {
+            console.log("nieco2", aaa)
+            const output = {"data": clovek};
+            res.json(output)
+        })
+    })
+})
+// najdeme si konkretneho cloveka
+// if existuje tak ho zmenime
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
