@@ -51,12 +51,12 @@ test('a new blog added', async () => {
     await api
         .post('/api/blogs')
         .send(newBlog)
-        .expect(200)
+        .expect(201)
         .expect('Content-Type', /application\/json/)
 
     const res = await api.get('/api/blogs')
     const title = res.body.map(x=>x.title)
-    expect(res).toHaveLength(initialBlogs.length+1)
+    expect(res.body).toHaveLength(initialBlogs.length+1)
     expect(title).toContain('Go To Statement Considered Harmful')
 })
 
