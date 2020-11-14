@@ -75,8 +75,15 @@ test('specific blog updated', async () => {
     const all = await api.get('/api/blogs')
     const id = all.body[0].id
 
+    const updatedBlog = {likes: 150}
+
     await api
-        .put(`/api/blogs/${id}`)
+        .put(`/api/blogs/${id}`, updatedBlog)
+        .expect(200)
+
+    const res = await api.get(`/api/blogs/${id}`)
+    expect(res.body.likes).toEqual(150)
+
 })
 
 afterAll(() => {
