@@ -20,8 +20,7 @@ const initialBlogs = [
     }
 ]
 
-beforeEach(async () =>{
-    // console.log('g')
+beforeEach(async () => {
     await Blog.deleteMany({})
     let blogObj = new Blog(initialBlogs[0])
     await blogObj.save()
@@ -29,14 +28,14 @@ beforeEach(async () =>{
     await blogObj.save()
 })
 
-test('return all blog as json', async () =>{
+test('return all blog as json', async () => {
     await api
         .get('/api/blogs')
         .expect(200)
         .expect('Content-Type', /application\/json/)
 })
 
-test('there are 2 blogs', async () =>{
+test('there are 2 blogs', async () => {
     const res = await api.get('/api/blogs')
     expect(res.body).toHaveLength(2)
 })
@@ -58,6 +57,26 @@ test('a new blog added', async () => {
     const title = res.body.map(x=>x.title)
     expect(res.body).toHaveLength(initialBlogs.length+1)
     expect(title).toContain('Go To Statement Considered Harmful')
+})
+
+test('specific blog removed', async () => {
+    const all = await api.get('/api/blogs')
+    const id = all.body[0].id
+
+    await api
+        .delete(`/api/blogs/${id}`)
+        .expect(204)
+
+    const res = await api.get('/api/blogs')
+    expect(res.body).toHaveLength(1)
+})
+
+test('specific blog updated', async () => {
+    const all = await api.get('/api/blogs')
+    const id = all.body[0].id
+
+    await api
+        .put(`/api/blogs/${id}`)
 })
 
 afterAll(() => {
