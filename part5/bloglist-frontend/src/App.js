@@ -36,7 +36,17 @@ const App = () => {
     }
 
     const handleAdding = (event)=>{
+        event.preventDefault()
 
+        const newBlog = {title: title, author: author, url: url}
+        blogService.create(newBlog)
+            .then(response=>{
+                const newBlogs = blogs.concat(response)
+                setBlogs(newBlogs)
+            })
+        setTitle('')
+        setAuthor('')
+        setUrl('')
     }
 
     if (user === null) {
@@ -83,9 +93,7 @@ const App = () => {
                     <button type="submit">create</button>
                 </div>
             </form>
-            {blogs.map(blog =>
-                <Blog key={blog.id} blog={blog}/>
-            )}
+            {blogs.map(blog => <Blog blog={blog}/>)}
         </div>
     )
 }
