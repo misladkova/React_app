@@ -35,18 +35,17 @@ const App = () => {
         setUser(null)
     }
 
-    const handleAdding = (event)=>{
+    const handleAdding = async (event)=>{
         event.preventDefault()
 
         const newBlog = {title: title, author: author, url: url}
-        blogService.create(newBlog)
-            .then(response=>{
-                const newBlogs = blogs.concat(response)
-                setBlogs(newBlogs)
-            })
+        const newBlogPromise = blogService.create(newBlog)
         setTitle('')
         setAuthor('')
         setUrl('')
+        const response = await newBlogPromise
+        const newBlogs = blogs.concat(response)
+        setBlogs(newBlogs)
     }
 
     if (user === null) {
