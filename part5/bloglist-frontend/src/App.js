@@ -17,9 +17,9 @@ const App = () => {
 
     const handleLogin = async (event) => {
         event.preventDefault()
-        console.log('logging in with', username, password)
 
         const user = await loginService.login({username, password})
+        blogService.setToken(user.token)
         setUser(user)
         setUsername('')
         setPassword('')
