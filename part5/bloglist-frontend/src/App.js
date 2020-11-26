@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import LoginForm from "./components/loginForm";
 
 const App = () => {
     const [username, setUsername] = useState('')
@@ -11,6 +12,7 @@ const App = () => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
+    const [showLogin, setShowLogin] = useState(false)
 
     useEffect(() => {
         blogService.getAll().then(blogs =>
@@ -29,13 +31,13 @@ const App = () => {
         setPassword('')
     }
 
-    const handleLogout = (event)=>{
+    const handleLogout = (event) => {
         event.preventDefault()
         window.localStorage.removeItem('loggedUser')
         setUser(null)
     }
 
-    const handleAdding = async (event)=>{
+    const handleAdding = async (event) => {
         event.preventDefault()
 
         const newBlog = {title: title, author: author, url: url}
@@ -48,23 +50,41 @@ const App = () => {
         setBlogs(newBlogs)
     }
 
+    // const loginForm = () => {
+    //     const hide = {display: showLogin ? 'none' : ''}
+    //     const show = {display: showLogin ? '' : 'none'}
+    //
+    //     return(
+    //         <div>
+    //             <div style={hide}>
+    //                 <button onClick={() => setShowLogin(true)}>Log in</button>
+    //             </div>
+    //             <div style={show}>
+    //                 <LoginForm username={username} password={password} handleLogin={handleLogin} handleUsernameChange=
+    //                     {({target}) => setUsername(target.value)} handlePasswordChange={({target}) =>
+    //                      setPassword(target.value)}/>
+    //                     <button onClick={() => setShowLogin(false)}>Cancel</button>
+    //             </div>
+    //         </div>
+    //     )
+    // }
+
     if (user === null) {
-        return (
+        // return (loginForm())
+        const hide = {display: showLogin ? 'none' : ''}
+        const show = {display: showLogin ? '' : 'none'}
+
+        return(
             <div>
-                <h2>log in to application</h2>
-                <form onSubmit={handleLogin}>
-                    <div>
-                        username: <input type="text" value={username} onChange={({target}) =>
-                        setUsername(target.value)}/>
-                    </div>
-                    <div>
-                        password: <input type="password" value={password} onChange={({target}) =>
+                <div style={hide}>
+                    <button onClick={() => setShowLogin(true)}>Log in</button>
+                </div>
+                <div style={show}>
+                    <LoginForm username={username} password={password} handleLogin={handleLogin} handleUsernameChange=
+                        {({target}) => setUsername(target.value)} handlePasswordChange={({target}) =>
                         setPassword(target.value)}/>
-                    </div>
-                    <div>
-                        <button type="submit">login</button>
-                    </div>
-                </form>
+                    <button onClick={() => setShowLogin(false)}>Cancel</button>
+                </div>
             </div>
         )
     }
@@ -77,15 +97,15 @@ const App = () => {
             <h2>create new</h2>
             <form onSubmit={handleAdding}>
                 <div>
-                    title: <input type="text" value={title} onChange={({target})=>
+                    title: <input type="text" value={title} onChange={({target}) =>
                     setTitle(target.value)}/>
                 </div>
                 <div>
-                    author: <input type="text" value={author} onChange={({target})=>
+                    author: <input type="text" value={author} onChange={({target}) =>
                     setAuthor(target.value)}/>
                 </div>
                 <div>
-                    url: <input type="text" value={url} onChange={({target})=>
+                    url: <input type="text" value={url} onChange={({target}) =>
                     setUrl(target.value)}/>
                 </div>
                 <div>
