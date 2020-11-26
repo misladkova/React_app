@@ -10,9 +10,6 @@ const App = () => {
     const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
     const [blogs, setBlogs] = useState([])
-    const [title, setTitle] = useState('')
-    const [author, setAuthor] = useState('')
-    const [url, setUrl] = useState('')
     const [showLogin, setShowLogin] = useState(false)
     const [showCreate, setShowCreate] = useState(false)
 
@@ -37,19 +34,6 @@ const App = () => {
         event.preventDefault()
         window.localStorage.removeItem('loggedUser')
         setUser(null)
-    }
-
-    const handleAdding = async (event) => {
-        event.preventDefault()
-
-        const newBlog = {title: title, author: author, url: url}
-        const newBlogPromise = blogService.create(newBlog)
-        setTitle('')
-        setAuthor('')
-        setUrl('')
-        const response = await newBlogPromise
-        const newBlogs = blogs.concat(response)
-        setBlogs(newBlogs)
     }
 
     if (user === null) {
@@ -83,8 +67,7 @@ const App = () => {
                 <button onClick={() => setShowCreate(true)}>new blog</button>
             </div>
             <div style={show}>
-                <CreateForm title={title} handleAdding={handleAdding} author={author} setAuthor={setAuthor} url={url}
-                            setTitle={setTitle} setUrl={setUrl} setShowCreate={setShowCreate}/>
+                <CreateForm blogs={blogs} setBlogs={setBlogs} setShowCreate={setShowCreate}/>
             </div>
             {blogs.map(blog => <Blog blog={blog}/>)}
         </div>
