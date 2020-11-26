@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import LoginForm from "./components/loginForm";
+import CreateForm from "./components/createForm";
 
 const App = () => {
     const [username, setUsername] = useState('')
@@ -82,24 +83,8 @@ const App = () => {
                 <button onClick={() => setShowCreate(true)}>new blog</button>
             </div>
             <div style={show}>
-                <h2>create new</h2>
-                <form onSubmit={handleAdding}>
-                    <div>
-                        title: <input type="text" value={title} onChange={({target}) =>
-                        setTitle(target.value)}/>
-                    </div>
-                    <div>
-                        author: <input type="text" value={author} onChange={({target}) =>
-                        setAuthor(target.value)}/>
-                    </div>
-                    <div>
-                        url: <input type="text" value={url} onChange={({target}) =>
-                        setUrl(target.value)}/>
-                    </div>
-                    <div>
-                        <button type="submit">create</button>
-                    </div>
-                </form>
+                <CreateForm title={title} handleAdding={handleAdding} author={author} setAuthor={setAuthor} url={url}
+                            setTitle={setTitle} setUrl={setUrl} setShowCreate={setShowCreate}/>
             </div>
             {blogs.map(blog => <Blog blog={blog}/>)}
         </div>
