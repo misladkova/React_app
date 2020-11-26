@@ -13,6 +13,7 @@ const App = () => {
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
     const [showLogin, setShowLogin] = useState(false)
+    const [showCreate, setShowCreate] = useState(false)
 
     useEffect(() => {
         blogService.getAll().then(blogs =>
@@ -50,31 +51,11 @@ const App = () => {
         setBlogs(newBlogs)
     }
 
-    // const loginForm = () => {
-    //     const hide = {display: showLogin ? 'none' : ''}
-    //     const show = {display: showLogin ? '' : 'none'}
-    //
-    //     return(
-    //         <div>
-    //             <div style={hide}>
-    //                 <button onClick={() => setShowLogin(true)}>Log in</button>
-    //             </div>
-    //             <div style={show}>
-    //                 <LoginForm username={username} password={password} handleLogin={handleLogin} handleUsernameChange=
-    //                     {({target}) => setUsername(target.value)} handlePasswordChange={({target}) =>
-    //                      setPassword(target.value)}/>
-    //                     <button onClick={() => setShowLogin(false)}>Cancel</button>
-    //             </div>
-    //         </div>
-    //     )
-    // }
-
     if (user === null) {
-        // return (loginForm())
         const hide = {display: showLogin ? 'none' : ''}
         const show = {display: showLogin ? '' : 'none'}
 
-        return(
+        return (
             <div>
                 <div style={hide}>
                     <button onClick={() => setShowLogin(true)}>Log in</button>
@@ -88,30 +69,38 @@ const App = () => {
             </div>
         )
     }
+    const hide = {display: showCreate ? 'none' : ''}
+    const show = {display: showCreate ? '' : 'none'}
+
     return (
         <div>
             <h2>blogs</h2>
             <div>
                 <p>{user.name} is logged in <button type="submit" onClick={handleLogout}>logout</button></p>
             </div>
-            <h2>create new</h2>
-            <form onSubmit={handleAdding}>
-                <div>
-                    title: <input type="text" value={title} onChange={({target}) =>
-                    setTitle(target.value)}/>
-                </div>
-                <div>
-                    author: <input type="text" value={author} onChange={({target}) =>
-                    setAuthor(target.value)}/>
-                </div>
-                <div>
-                    url: <input type="text" value={url} onChange={({target}) =>
-                    setUrl(target.value)}/>
-                </div>
-                <div>
-                    <button type="submit">create</button>
-                </div>
-            </form>
+            <div style={hide}>
+                <button onClick={() => setShowCreate(true)}>new blog</button>
+            </div>
+            <div style={show}>
+                <h2>create new</h2>
+                <form onSubmit={handleAdding}>
+                    <div>
+                        title: <input type="text" value={title} onChange={({target}) =>
+                        setTitle(target.value)}/>
+                    </div>
+                    <div>
+                        author: <input type="text" value={author} onChange={({target}) =>
+                        setAuthor(target.value)}/>
+                    </div>
+                    <div>
+                        url: <input type="text" value={url} onChange={({target}) =>
+                        setUrl(target.value)}/>
+                    </div>
+                    <div>
+                        <button type="submit">create</button>
+                    </div>
+                </form>
+            </div>
             {blogs.map(blog => <Blog blog={blog}/>)}
         </div>
     )
