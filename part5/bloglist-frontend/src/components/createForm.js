@@ -1,6 +1,24 @@
-import React from "react";
+import React, {useState} from "react";
+import blogService from "../services/blogs";
 
-const CreateForm = ({handleAdding, title, author, url, setTitle, setAuthor, setUrl, setShowCreate}) => {
+const CreateForm = ({blogs, setBlogs, setShowCreate}) => {
+    const [title, setTitle] = useState('')
+    const [author, setAuthor] = useState('')
+    const [url, setUrl] = useState('')
+
+    const handleAdding = async (event) => {
+        event.preventDefault()
+
+        const newBlog = {title: title, author: author, url: url}
+        const newBlogPromise = blogService.create(newBlog)
+        setTitle('')
+        setAuthor('')
+        setUrl('')
+        const response = await newBlogPromise
+        const newBlogs = blogs.concat(response)
+        setBlogs(newBlogs)
+    }
+
     return (
         <div>
             <h2>create new</h2>
