@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
-import LoginForm from "./components/loginForm";
-import CreateForm from "./components/createForm";
+import LoginForm from './components/loginForm'
+import CreateForm from './components/createForm'
 
 const App = () => {
     const [username, setUsername] = useState('')
