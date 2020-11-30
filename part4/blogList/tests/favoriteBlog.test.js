@@ -1,12 +1,12 @@
 const listHelper = require('../utils/list_helper')
 
 describe('favoriteBlog', ()=>{
-    test('when list is empty, result equals zero', ()=>{
+    test('when list is empty, result equals none', ()=>{
         const blogs = []
         const result = listHelper.favoriteBlog(blogs)
         expect(result).toEqual([])
     })
-    test('when list contains one blog, result equals the likes of that', ()=>{
+    test('when list contains one blog, result equals that blog', ()=>{
         const blogs = [
             {
                 _id: '5a422aa71b54a676234d17f8',
@@ -21,7 +21,7 @@ describe('favoriteBlog', ()=>{
         const expected = {title: 'Go To Statement Considered Harmful', author: 'Edsger W. Dijkstra', likes: 5}
         expect(result).toEqual(expected)
     })
-    test('when list contains more than one, find out which one has most likes', ()=>{
+    test('when list contains more than one, result equals the blog with the most likes', ()=>{
         const blogs = [
             {
                 _id: '5a422aa71b54a676234d17f8',
